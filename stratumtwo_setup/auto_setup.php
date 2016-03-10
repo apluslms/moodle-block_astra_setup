@@ -18,6 +18,9 @@ $PAGE->set_title(format_string(get_string('autosetup', block_stratumtwo_setup::S
 $PAGE->set_heading(format_string($course->fullname));
 
 $default_values = $DB->get_record(\mod_stratumtwo_course_config::TABLE, array('course' => $cid));
+if ($default_values === false) {
+    $default_values = null;
+}
 
 // Output starts here.
 // gotcha: moodle forms should be initialized before $OUTPUT->header

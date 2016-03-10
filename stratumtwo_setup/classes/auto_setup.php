@@ -97,7 +97,8 @@ class block_stratumtwo_setup_auto_setup {
      * @return array of error strings, empty if there were no errors
      */
     public function configure_content($courseid, $sectionNumber, $conf) {
-    
+        global $DB;
+
         if (!isset($conf->categories) || !is_object($conf->categories)) {
             return array(\get_string('configcategoriesmissing', \block_stratumtwo_setup::STR_PLUGINNAME));
         }
@@ -318,7 +319,7 @@ class block_stratumtwo_setup_auto_setup {
         // parse exercises in the exercise round
         if (isset($module->children)) {
             $exercise_order = $this->configure_exercises($categories, $exround, $module->children,
-                    null, $seen_exercises, $errors, $exercise_order);
+                    $seen_exercises, $errors, null, $exercise_order);
         }
         
         return array($module_order, $exercise_order);
@@ -372,15 +373,15 @@ class block_stratumtwo_setup_auto_setup {
      * @param array $categories \mod_stratumtwo_category objects indexed by keys
      * @param \mod_stratumtwo_exercise_round $exround
      * @param array $config configuration JSON of the exercises
-     * @param \mod_stratumtwo_exercise $parent set if the exercise is listed under another exercise,
-     * null if there is no parent exercise.
      * @param array $seen array of exercise IDs that have been seen in the config
      * @param array $errors
+     * @param \mod_stratumtwo_exercise $parent set if the exercise is listed under another exercise,
+     * null if there is no parent exercise.
      * @param int $n ordering number
      * @return int new ordering number, use if exercises are numerated course-wide
      */
     protected function configure_exercises(array &$categories, \mod_stratumtwo_exercise_round $exround,
-            array $config, \mod_stratumtwo_exercise $parent, array &$seen, array &$errors, $n = 0) {
+            array $config, array &$seen, array &$errors, \mod_stratumtwo_exercise $parent = null, $n = 0) {
         global $DB;
         
         foreach ($config as $o) {
@@ -404,7 +405,7 @@ class block_stratumtwo_setup_auto_setup {
             // find if an exercise with the key exists in the same course as the exercise round
             $exerciseRecord = $DB->get_record_select(\mod_stratumtwo_exercise::TABLE,
                     'remotekey = ? AND roundid IN (SELECT id FROM {'. \mod_stratumtwo_exercise_round::TABLE .'} WHERE course = ?)',
-                    array($o->key, $exround->getCourse()->id), '*', IGNORE_MISSING);
+                    array($o->key, $exround->getCourse()->courseid), '*', IGNORE_MISSING);
             if ($exerciseRecord === false) {
                 // create new later
                 $exerciseRecord = new \stdClass();
@@ -484,7 +485,7 @@ class block_stratumtwo_setup_auto_setup {
             $seen[] = $exercise->getId();
             
             if (isset($o->children)) {
-                $this->configure_exercises($categories, $exround, $o->children, $exercise, $seen, $errors);
+                $this->configure_exercises($categories, $exround, $o->children, $seen, $errors, $exercise);
             }
         }
         return $n;

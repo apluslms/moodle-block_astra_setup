@@ -14,7 +14,7 @@ class edit_exercises_page implements \renderable, \templatable {
     
     public function export_for_template(\renderer_base $output) {
         $ctx = new \stdClass();
-        $ctx->autosetupurl = (new moodle_url('/blocks/'. \block_stratumtwo_setup::PLUGINNAME .'/auto_setup.php',
+        $ctx->autosetupurl = (new \moodle_url('/blocks/'. \block_stratumtwo_setup::PLUGINNAME .'/auto_setup.php',
                 array('course' => $this->courseid)))->out();
         return $ctx;
     }
