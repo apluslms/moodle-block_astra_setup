@@ -12,7 +12,7 @@ class block_stratumtwo_setup extends block_list {
     const STR_PLUGINNAME = 'block_stratumtwo_setup'; /** plugin name for get_string() */
     const PLUGINNAME = 'stratumtwo_setup'; /** plugin name without prefixes */
 
-    /** Return the path to the mod stratumasgn directory. */
+    /** Return the path to the mod stratumtwo directory. */
     public static function get_mod_stratumtwo_path() {
         // PHP class constants cannot be defined with a return value from a function call,
         // so we have this static method

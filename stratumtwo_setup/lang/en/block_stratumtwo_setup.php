@@ -6,6 +6,28 @@ $string['editexercises'] = 'Edit exercises';
 $string['autosetup'] = 'Update and create Stratum2 exercises automatically';
 $string['autosetup_help'] = 'Import configuration from the exercise service URL and override course contents (Stratum2 exercise rounds, exercises and categories).';
 
+// edit exercises page
+$string['exercisecategories'] = 'Exercise categories';
+$string['editcategory'] = 'Edit category';
+$string['remove'] = 'Remove';
+$string['addnewcategory'] = 'Add new category';
+$string['exerciserounds'] = 'Exercise rounds';
+$string['editmodule'] = 'Edit exercise round';
+$string['openround'] = 'Open the exercise round';
+$string['editexercise'] = 'Edit exercise';
+$string['openexercise'] = 'Open exercise';
+$string['addnewlearningobject'] = 'Add new learning object';
+$string['addnewmodule'] = 'Add new exercise round';
+$string['save'] = 'Save';
+$string['renumerateformodules'] = 'Renumerate learning objects for each module';
+$string['renumerateignoremodules'] = 'Renumerate learning objects ignoring modules';
+$string['modulenumbering'] = 'Module numbering';
+$string['contentnumbering'] = 'Content numbering';
+$string['nonumbering'] = 'No numbering';
+$string['arabicnumbering'] = 'Arabic';
+$string['romannumbering'] = 'Roman';
+$string['hiddenarabicnum'] = 'Hidden arabic';
+
 // auto setup form
 $string['configurl'] = 'Configuration URL';
 $string['configurl_help'] = 'Configuration data for course exercises is downloaded from this URL.';

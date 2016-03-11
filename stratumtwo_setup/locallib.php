@@ -83,3 +83,17 @@ function block_stratumtwo_setup_sort_activities_in_section($courseid, $course_se
     $DB->set_field('course_sections', 'sequence', $new_section_sequence,
         array('id' => $section_row->id));
 }
+
+function block_stratumtwo_setup_renumber_rounds_and_exercises($courseid) {
+    $roundOrder = 0;
+    foreach (\mod_stratumtwo_exercise_round::getExerciseRoundsInCourse($courseid) as $exround) {
+        $roundOrder += 1;
+        $exround->setOrder($roundOrder);
+        $exround->updateNameWithOrder($roundOrder, $style); //TODO
+        $exround->save(true);
+        //TODO ordering in auto setup creation
+        foreach ($exround->getExercises() as $ex) {
+            
+        }
+    }
+}

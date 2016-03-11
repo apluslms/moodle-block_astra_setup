@@ -6,7 +6,7 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php'); // defines MOODLE_INTERNAL for libraries
 //require_once(dirname(__FILE__) .'/locallib.php');
 require_once(dirname(__FILE__) .'/block_stratumtwo_setup.php');
-//require_once(block_stratum_autosetup::get_mod_stratumtwo_path() .'/lib.php');
+require_once(block_stratumtwo_setup::get_mod_stratumtwo_path() .'/locallib.php');
 
 $cid = required_param('course', PARAM_INT); // Course ID
 $course = get_course($cid);
@@ -15,6 +15,26 @@ require_login($course, false);
 $context = context_course::instance($cid);
 require_capability('moodle/course:manageactivities', $context);
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $module_numbering = null;
+    if (isset($_POST['module_numbering'])) {
+        $module_numbering = (int) $_POST['module_numbering'];
+    }
+    $content_numbering = null;
+    if (isset($_POST['content_numbering'])) {
+        $content_numbering = (int) $_POST['content_numbering'];
+    }
+    //TODO
+    if (isset($_POST['save'])) {
+        
+    } else if (isset($_POST['renumbermodule'])) {
+        
+    } else if (isset($_POST['renumbercourse'])) {
+        
+    }
+}
+
+stratumtwo_page_require($PAGE); // Bootstrap CSS etc.
 // Print the page header.
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url('/blocks/'. block_stratumtwo_setup::PLUGINNAME .'/edit_exercises.php', array('course' => $cid));
