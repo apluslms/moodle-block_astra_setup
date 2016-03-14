@@ -27,6 +27,10 @@ Context variables:
         * submissionlisturl (string) URL to the all submissions list
 * create_module_url (string) URL for creating a new exercise round
 * renumber_action_url (string) URL for form action that renumbers exercises
+* module_numbering_options (callable), returns the HTML <option> elements for module numbering
+        (in <select> element of the form).
+* content_numbering_options (callable), returns the HTML <option> elements for content numbering
+        (in <select> element of the form).
 }}
 
 <div class="well">
@@ -147,18 +151,13 @@ Context variables:
     <div class="form-group">
       <label for="id_module_numbering">{{#str}} modulenumbering, block_stratumtwo_setup {{/str}}</label>
       <select class="form-control" id="id_module_numbering" name="module_numbering">
-        <option value="0">{{#str}} nonumbering, block_stratumtwo_setup {{/str}}</option>
-        <option value="1">{{#str}} arabicnumbering, block_stratumtwo_setup {{/str}}</option>
-        <option value="2">{{#str}} romannumbering, block_stratumtwo_setup {{/str}}</option>
-        <option value="3">{{#str}} hiddenarabicnum, block_stratumtwo_setup {{/str}}</option>
+        {{# module_numbering_options }}{{/ module_numbering_options }}
       </select>
     </div>
     <div class="form-group">
       <label for="id_content_numbering">{{#str}} contentnumbering, block_stratumtwo_setup {{/str}}</label>
       <select class="form-control" id="id_content_numbering" name="content_numbering">
-        <option value="0">{{#str}} nonumbering, block_stratumtwo_setup {{/str}}</option>
-        <option value="1">{{#str}} arabicnumbering, block_stratumtwo_setup {{/str}}</option>
-        <option value="2">{{#str}} romannumbering, block_stratumtwo_setup {{/str}}</option>
+        {{# content_numbering_options }}{{/ content_numbering_options }}
       </select>
     </div>
     

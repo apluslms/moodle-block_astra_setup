@@ -84,16 +84,45 @@ function block_stratumtwo_setup_sort_activities_in_section($courseid, $course_se
         array('id' => $section_row->id));
 }
 
-function block_stratumtwo_setup_renumber_rounds_and_exercises($courseid) {
+/**
+ * Renumber (visible) exercise rounds and exercises.
+ * @param int $courseid Moodle course ID
+ * @param int $moduleNumberingStyle module numbering constant from mod_stratumtwo_course_config
+ * @param bool $numberExercisesIgnoringModules if true, exercises are numbered from 1 to N over
+ * all rounds instead of starting each round with 1
+ */
+function block_stratumtwo_setup_renumber_rounds_and_exercises($courseid,
+        $moduleNumberingStyle, $numberExercisesIgnoringModules = false) {
     $roundOrder = 0;
+    $exerciseOrder = 0;
     foreach (\mod_stratumtwo_exercise_round::getExerciseRoundsInCourse($courseid) as $exround) {
         $roundOrder += 1;
         $exround->setOrder($roundOrder);
-        $exround->updateNameWithOrder($roundOrder, $style); //TODO
-        $exround->save(true);
-        //TODO ordering in auto setup creation
-        foreach ($exround->getExercises() as $ex) {
-            
+        $name = \mod_stratumtwo_exercise_round::updateNameWithOrder($exround->getName(),
+                $roundOrder, $moduleNumberingStyle);
+        $exround->setName($name);
+        $exround->save();
+        if (!$numberExercisesIgnoringModules) {
+            $exerciseOrder = 0;
         }
+        foreach ($exround->getExercises() as $ex) {
+            $exerciseOrder += 1;
+            $ex->setOrder($exerciseOrder);
+            $ex->save();
+        }
+    }
+}
+
+/**
+ * Rename exercise rounds using their ordinal numbers and the given numbering style.
+ * @param int $courseid Moodle course ID
+ * @param int $moduleNumberingStyle module numbering constant from mod_stratumtwo_course_config
+ */
+function block_stratumtwo_setup_rename_rounds_with_numbers($courseid, $moduleNumberingStyle) {
+    foreach (\mod_stratumtwo_exercise_round::getExerciseRoundsInCourse($courseid) as $exround) {
+        $name = \mod_stratumtwo_exercise_round::updateNameWithOrder($exround->getName(),
+                $exround->getOrder(), $moduleNumberingStyle);
+        $exround->setName($name);
+        $exround->save();
     }
 }

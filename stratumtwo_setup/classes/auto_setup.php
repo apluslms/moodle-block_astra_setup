@@ -210,18 +210,27 @@ class block_stratumtwo_setup_auto_setup {
         
         if (isset($module->order)) {
             $order = $this->parseInt($module->order, $errors);
-            if ($order !== null)
+            if ($order !== null) {
                 $roundRecord->ordernum = $order;
+            } else {
+                $roundRecord->ordernum = 1;
+            }
         } else {
             $module_order += 1;
             $roundRecord->ordernum = $module_order;
         }
-        if (isset($module->title))
-            $roundRecord->name = (string) $module->title;
-        else if (isset($module->name))
-            $roundRecord->name = (string) $module->name;
-        if (!isset($roundRecord->name))
-            $roundRecord->name = '-';
+        $moduleName = null;
+        if (isset($module->title)) {
+            $moduleName = (string) $module->title;
+        } else if (isset($module->name)) {
+            $moduleName = (string) $module->name;
+        }
+        if (!isset($moduleName)) {
+            $moduleName = '-';
+        }
+        $roundRecord->name = "{$roundRecord->ordernum}. $moduleName";
+        // In order to show the ordinal number of the exercise round in the Moodle course page,
+        // the number must be stored in the name.
         
         if (isset($module->status))
             $roundRecord->status = $this->parseModuleStatus($module->status, $errors);
@@ -473,9 +482,8 @@ class block_stratumtwo_setup_auto_setup {
             if (isset($exerciseRecord->id)) {
                 // update existing
                 $exercise = new \mod_stratumtwo_exercise($exerciseRecord);
-                $exercise->save();
-                // update gradebook for both exercise and exercise round (changed max points)
-                $exercise->updateGradebookItem();
+                $exercise->save(); // updates gradebook for exercise 
+                // update gradebook for exercise round (changed max points)
                 $exround->updateMaxPoints($exerciseRecord->maxpoints - $oldMaxPoints);
             } else {
                 // create new exercise
