@@ -25,6 +25,11 @@ if ($default_values === false) {
 // Output starts here.
 // gotcha: moodle forms should be initialized before $OUTPUT->header
 $form = new \block_stratumtwo_setup\form\autosetup_form($default_values, 'auto_setup.php?course='. $cid);
+if ($form->is_cancelled()) {
+    // Handle form cancel operation, if cancel button is present on form
+    redirect(new moodle_url('/course/view.php', array('id' => $cid)));
+    exit(0);
+}
 $output = $PAGE->get_renderer(block_stratumtwo_setup::STR_PLUGINNAME);
 
 echo $output->header();
@@ -33,10 +38,7 @@ echo $output->heading_with_help(get_string('autosetup', block_stratumtwo_setup::
 echo '<p>'. get_string('createreminder', block_stratumtwo_setup::STR_PLUGINNAME) .'</p>';
 
 // Form processing and displaying is done here
-if ($form->is_cancelled()) {
-    // Handle form cancel operation, if cancel button is present on form
-    redirect(new moodle_url('/course/view.php', array('id' => $cid)));
-} else if ($fromform = $form->get_data()) {
+if ($fromform = $form->get_data()) {
     // In this case you process validated data. $mform->get_data() returns data posted in form.
     $errors = \block_stratumtwo_setup_auto_setup::configure_content_from_url($cid,
             $fromform->sectionnum, $fromform->configurl, $fromform->apikey);
