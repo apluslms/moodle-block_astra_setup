@@ -422,7 +422,7 @@ class block_stratumtwo_setup_auto_setup {
             }
 
             $exerciseRecord->roundid = $exround->getId();
-            $exerciseRecord->categoryid = $categories[$o->category];
+            $exerciseRecord->categoryid = $categories[$o->category]->getId();
             if ($parent !== null)
                 $exerciseRecord->parentid = $parent->getId();
             
