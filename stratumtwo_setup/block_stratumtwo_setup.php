@@ -27,10 +27,10 @@ class block_stratumtwo_setup extends block_list {
 
     public function get_content() {
         if ($this->content !== null) {
-          return $this->content;
+            return $this->content;
         }
 
-        $this->content         =  new stdClass();
+        $this->content         = new stdClass();
         $this->content->items  = array();
         $this->content->icons  = array();
         $this->content->footer = '';
@@ -38,7 +38,7 @@ class block_stratumtwo_setup extends block_list {
         $cid = $this->page->course->id; // course id
         $context = context_course::instance($cid);
 
-        if (has_capability('moodle/course:manageactivities', $context)) {
+        if (has_capability('mod/stratumtwo:addinstance', $context)) {
 
             // Links to course-level Stratum2 exercises administration:
             // 1) edit exercises (add/edit/delete/automatic setup from exercise service config)
@@ -50,7 +50,7 @@ class block_stratumtwo_setup extends block_list {
             //$this->content->icons[] = $create_img;
             // the result looks better when the icon is combined to the link
             $this->content->items[] = html_writer::link(
-                    new moodle_url('/blocks/'. self::PLUGINNAME .'/edit_exercises.php', array('course' => $cid)),
+                    \mod_stratumtwo\urls\urls::editCourse($cid, true),
                     $edit_img .' '. get_string('editexercises', self::STR_PLUGINNAME));
 
             // TODO deviations
@@ -66,7 +66,7 @@ class block_stratumtwo_setup extends block_list {
         // only the course main page (and mod stratumtwo pages)
         return array(
             'course-view' => true,
-            //'mod-stratumtwo' => true,
+            'mod-stratumtwo' => true,
         );
     }
 
@@ -75,8 +75,7 @@ class block_stratumtwo_setup extends block_list {
      */
     public static function get_extra_capabilities() {
         $caps = parent::get_extra_capabilities(); // array('moodle/block:view', 'moodle/block:edit');
-        $caps[] = 'moodle/grade:edit'; //TODO check if used in new block
-        $caps[] = 'moodle/course:manageactivities';
+        $caps[] = 'mod/stratumtwo:addinstance';
         return $caps;
     }
 }
