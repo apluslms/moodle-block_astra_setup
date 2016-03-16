@@ -34,7 +34,7 @@ class edit_exercises_page implements \renderable, \templatable {
         foreach (\mod_stratumtwo_category::getCategoriesInCourse($this->courseid) as $cat) {
             $ctx->categories[] = $cat->getTemplateContext();
         }
-        $ctx->create_category_url = \mod_stratumtwo\urls\urls::createCategory();
+        $ctx->create_category_url = \mod_stratumtwo\urls\urls::createCategory($this->courseid);
         $ctx->course_modules = array();
         foreach (\mod_stratumtwo_exercise_round::getExerciseRoundsInCourse($this->courseid) as $exround) {
             $ctx->course_modules[] = $exround->getTemplateContextWithExercises(true);
