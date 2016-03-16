@@ -8,6 +8,8 @@ Context variables:
     - editurl (string) URL to category edit page
     - has_exercises (bool) true if there is at least one exercise/learning object in the category
     - removeurl (string) URL for deleting the category
+    - status_ready (bool) true if ready
+    - status_str (string) human-readable status
 * create_category_url (string) URL for creating a new category
 * course_modules (array of objects), each object has fields 
     - name (string) with ordinal number
@@ -47,6 +49,9 @@ Context variables:
             <tr>
                 <td>
                     {{ name }}
+                    {{^ status_ready }}
+                      <span class="label label-default">{{ status_str }}</span>
+                    {{/ status_ready }}
                 </td>
                 <td>
                     <a class="btn btn-default btn-xs" href="{{{ editurl }}}">
@@ -92,7 +97,7 @@ Context variables:
                     <a class="btn btn-default btn-xs" href="{{{ editurl }}}">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {{#str}} editmodule, block_stratumtwo_setup {{/str}}
                     </a>
-                    {{# has_exercises }}
+                    {{^ has_exercises }}
                     <a class="btn btn-default btn-xs" href="{{{ removeurl }}}">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{#str}} remove, block_stratumtwo_setup {{/str}}
                     </a>
