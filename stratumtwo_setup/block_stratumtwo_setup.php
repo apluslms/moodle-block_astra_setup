@@ -44,7 +44,7 @@ class block_stratumtwo_setup extends block_list {
             // 1) edit exercises (add/edit/delete/automatic setup from exercise service config)
             // 2) Deviations (student-specific deadline/submission limit extensions)
 
-            $edit_img_url = new moodle_url('/pix/a/setting.png');
+            $edit_img_url = new moodle_url('/pix/i/settings.png');
             $edit_img = html_writer::img($edit_img_url->out(),
                     get_string('editexercises', self::STR_PLUGINNAME), $icon_attrs);
             //$this->content->icons[] = $create_img;
@@ -53,7 +53,15 @@ class block_stratumtwo_setup extends block_list {
                     \mod_stratumtwo\urls\urls::editCourse($cid, true),
                     $edit_img .' '. get_string('editexercises', self::STR_PLUGINNAME));
 
-            // TODO deviations
+            // deviations
+            $dev_img_url = new moodle_url('/pix/i/scheduled.png');
+            $dev_img = html_writer::img($dev_img_url->out(),
+                    get_string('deviations', self::STR_PLUGINNAME), $icon_attrs);
+            //$this->content->icons[] = $create_img;
+            // the result looks better when the icon is combined to the link
+            $this->content->items[] = html_writer::link(
+                    \mod_stratumtwo\urls\urls::deviations($cid, true),
+                    $dev_img .' '. get_string('deviations', self::STR_PLUGINNAME));
         }
         // without capability, content->items and footer are empty and the block is then not displayed
         return $this->content;
