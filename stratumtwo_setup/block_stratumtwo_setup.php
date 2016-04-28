@@ -34,7 +34,6 @@ class block_stratumtwo_setup extends block_list {
         $this->content->items  = array();
         $this->content->icons  = array();
         $this->content->footer = '';
-        $icon_attrs = array('height' => 16, 'width' => 16);
         $cid = $this->page->course->id; // course id
         $context = context_course::instance($cid);
 
@@ -43,30 +42,32 @@ class block_stratumtwo_setup extends block_list {
             // Links to course-level Stratum2 exercises administration:
             // 1) edit exercises (add/edit/delete/automatic setup from exercise service config)
             // 2) Deviations (student-specific deadline/submission limit extensions)
+            // 3) Export course results (points) to a JSON file that the teacher can download
 
-            $edit_img_url = new moodle_url('/pix/i/settings.png');
-            $edit_img = html_writer::img($edit_img_url->out(),
-                    get_string('editexercises', self::STR_PLUGINNAME), $icon_attrs);
             //$this->content->icons[] = $create_img;
-            // the result looks better when the icon is combined to the link
-            $this->content->items[] = html_writer::link(
-                    \mod_stratumtwo\urls\urls::editCourse($cid, true),
-                    $edit_img .' '. get_string('editexercises', self::STR_PLUGINNAME));
+            // the result looks better when the icon is combined to the link instead of separate content->icons
+            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::editCourse($cid, true),
+                    'editexercises', (new moodle_url('/pix/i/settings.png'))->out());
 
             // deviations
-            $dev_img_url = new moodle_url('/pix/i/scheduled.png');
-            $dev_img = html_writer::img($dev_img_url->out(),
-                    get_string('deviations', self::STR_PLUGINNAME), $icon_attrs);
-            //$this->content->icons[] = $create_img;
-            // the result looks better when the icon is combined to the link
-            $this->content->items[] = html_writer::link(
-                    \mod_stratumtwo\urls\urls::deviations($cid, true),
-                    $dev_img .' '. get_string('deviations', self::STR_PLUGINNAME));
+            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::deviations($cid, true),
+                    'deviations', (new moodle_url('/pix/i/scheduled.png'))->out());
+            
+            // export results
+            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::exportResults($cid, true),
+                    'exportresults', (new moodle_url('/pix/i/export.png'))->out());
         }
         // without capability, content->items and footer are empty and the block is then not displayed
         return $this->content;
     }
 
+    protected function render_list_item(moodle_url $link_url, $link_text_id, $img_src) {
+        $icon_attrs = array('height' => 16, 'width' => 16);
+        $text = get_string($link_text_id, self::STR_PLUGINNAME);
+        $img = html_writer::img($img_src, $text, $icon_attrs);
+        return html_writer::link($link_url, $img .' '. $text);
+    }
+    
     /**
      * Which page types this block may appear on.
      */
