@@ -6,6 +6,7 @@ $string['editexercises'] = 'Edit exercises';
 $string['deviations'] = 'Deviations';
 $string['exportresults'] = 'Export results';
 $string['exportsubmittedfiles'] = 'Export submitted files';
+$string['exportsubmittedforms'] = 'Export submitted form input';
 $string['massregrading'] = 'Mass regrading';
 
 // capability description
