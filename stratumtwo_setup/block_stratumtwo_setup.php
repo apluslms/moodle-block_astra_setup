@@ -42,10 +42,8 @@ class block_stratumtwo_setup extends block_list {
             // Links to course-level Stratum2 exercises administration:
             // 1) edit exercises (add/edit/delete/automatic setup from exercise service config)
             // 2) Deviations (student-specific deadline/submission limit extensions)
-            // 3) Export course results (points) to a JSON file that the teacher can download
-            // 4) Export submitted files to a zip archive
-            // 5) Export submitted form input to a JSON file (form input = text fields etc., not submitted files)
-            // 6) Mass regrading (upload many submissions at once to the exercise service for regrading)
+            // 3) Export course data
+            // 4) Mass regrading (upload many submissions at once to the exercise service for regrading)
 
             //$this->content->icons[] = $create_img;
             // the result looks better when the icon is combined to the link instead of separate content->icons
@@ -57,16 +55,8 @@ class block_stratumtwo_setup extends block_list {
                     'deviations', (new moodle_url('/pix/i/scheduled.png'))->out());
             
             // export results
-            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::exportResults($cid, true),
-                    'exportresults', (new moodle_url('/pix/i/export.png'))->out());
-            
-            // export submitted files
-            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::exportSubmittedFiles($cid, true),
-                    'exportsubmittedfiles', (new moodle_url('/pix/i/export.png'))->out());
-            
-            // export submitted form input
-            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::exportSubmittedFormInput($cid, true),
-                    'exportsubmittedforms', (new moodle_url('/pix/i/export.png'))->out());
+            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::exportIndex($cid, true),
+                    'exportdata', (new moodle_url('/pix/i/export.png'))->out());
             
             // mass regrading
             $this->content->items[] = $this->render_list_item(

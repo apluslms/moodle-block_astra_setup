@@ -4,9 +4,7 @@ $string['pluginname'] = 'Stratum2 exercises setup'; // required by Moodle core
 
 $string['editexercises'] = 'Edit exercises';
 $string['deviations'] = 'Deviations';
-$string['exportresults'] = 'Export results';
-$string['exportsubmittedfiles'] = 'Export submitted files';
-$string['exportsubmittedforms'] = 'Export submitted form input';
+$string['exportdata'] = 'Export course data';
 $string['massregrading'] = 'Mass regrading';
 
 // capability description
