@@ -1,6 +1,6 @@
 <?php
 
-$string['pluginname'] = 'Stratum2 exercises setup'; // required by Moodle core
+$string['pluginname'] = 'Astra exercises setup'; // required by Moodle core
 
 $string['editexercises'] = 'Edit exercises';
 $string['deviations'] = 'Deviations';
@@ -8,4 +8,4 @@ $string['exportdata'] = 'Export course data';
 $string['massregrading'] = 'Mass regrading';
 
 // capability description
-$string['stratumtwo_setup:addinstance'] = 'Add a new block for the setup of Stratum2 exercises. It is used to automatically create and configure all Stratum2 exercises in the course.';
+$string['astra_setup:addinstance'] = 'Add a new block for the setup of Astra exercises.';

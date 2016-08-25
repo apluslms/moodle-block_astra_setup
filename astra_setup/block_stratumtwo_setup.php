@@ -3,21 +3,21 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot .'/blocks/moodleblock.class.php');
 
 /**
- * Moodle block for accessing course-level Stratum2 exercise administration.
- * For example, automatic creation of Stratum2 exercise (round) activities in the course
- * based on the exercises configuration in the external Stratum server (exercise service).
+ * Moodle block for accessing course-level Astra exercise administration.
+ * For example, automatic creation of Astra exercise (round) activities in the course
+ * based on the exercise configurations in the external exercise service server.
  */
-class block_stratumtwo_setup extends block_list {
+class block_astra_setup extends block_list {
 
-    const STR_PLUGINNAME = 'block_stratumtwo_setup'; /** plugin name for get_string() */
-    const PLUGINNAME = 'stratumtwo_setup'; /** plugin name without prefixes */
+    const STR_PLUGINNAME = 'block_astra_setup'; /** plugin name for get_string() */
+    const PLUGINNAME = 'astra_setup'; /** plugin name without prefixes */
 
-    /** Return the path to the mod stratumtwo directory. */
-    public static function get_mod_stratumtwo_path() {
+    /** Return the path to the mod astra directory. */
+    public static function get_mod_astra_path() {
         // PHP class constants cannot be defined with a return value from a function call,
         // so we have this static method
         global $CFG;
-        return $CFG->dirroot .'/mod/stratumtwo';
+        return $CFG->dirroot .'/mod/astra';
     }
 
 
@@ -37,9 +37,9 @@ class block_stratumtwo_setup extends block_list {
         $cid = $this->page->course->id; // course id
         $context = context_course::instance($cid);
 
-        if (has_capability('mod/stratumtwo:addinstance', $context)) {
+        if (has_capability('mod/astra:addinstance', $context)) {
 
-            // Links to course-level Stratum2 exercises administration:
+            // Links to course-level Astra exercise administration:
             // 1) edit exercises (add/edit/delete/automatic setup from exercise service config)
             // 2) Deviations (student-specific deadline/submission limit extensions)
             // 3) Export course data
@@ -47,20 +47,20 @@ class block_stratumtwo_setup extends block_list {
 
             //$this->content->icons[] = $create_img;
             // the result looks better when the icon is combined to the link instead of separate content->icons
-            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::editCourse($cid, true),
+            $this->content->items[] = $this->render_list_item(\mod_astra\urls\urls::editCourse($cid, true),
                     'editexercises', (new moodle_url('/pix/i/settings.png'))->out());
 
             // deviations
-            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::deviations($cid, true),
+            $this->content->items[] = $this->render_list_item(\mod_astra\urls\urls::deviations($cid, true),
                     'deviations', (new moodle_url('/pix/i/scheduled.png'))->out());
             
             // export results
-            $this->content->items[] = $this->render_list_item(\mod_stratumtwo\urls\urls::exportIndex($cid, true),
+            $this->content->items[] = $this->render_list_item(\mod_astra\urls\urls::exportIndex($cid, true),
                     'exportdata', (new moodle_url('/pix/i/export.png'))->out());
             
             // mass regrading
             $this->content->items[] = $this->render_list_item(
-                    \mod_stratumtwo\urls\urls::massRegrading($cid, true),
+                    \mod_astra\urls\urls::massRegrading($cid, true),
                     'massregrading', (new moodle_url('/pix/i/grades.png'))->out());
         }
         // without capability, content->items and footer are empty and the block is then not displayed
@@ -78,10 +78,10 @@ class block_stratumtwo_setup extends block_list {
      * Which page types this block may appear on.
      */
     public function applicable_formats() {
-        // only the course main page (and mod stratumtwo pages)
+        // only the course main page (and mod astra pages)
         return array(
             'course-view' => true,
-            'mod-stratumtwo' => true,
+            'mod-astra' => true,
         );
     }
 
@@ -90,7 +90,7 @@ class block_stratumtwo_setup extends block_list {
      */
     public static function get_extra_capabilities() {
         $caps = parent::get_extra_capabilities(); // array('moodle/block:view', 'moodle/block:edit');
-        $caps[] = 'mod/stratumtwo:addinstance';
+        $caps[] = 'mod/astra:addinstance';
         return $caps;
     }
 }
