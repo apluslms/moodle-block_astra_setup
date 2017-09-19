@@ -48,30 +48,34 @@ class block_astra_setup extends block_list {
             //$this->content->icons[] = $create_img;
             // the result looks better when the icon is combined to the link instead of separate content->icons
             $this->content->items[] = $this->render_list_item(\mod_astra\urls\urls::editCourse($cid, true),
-                    'editexercises', (new moodle_url('/pix/i/settings.png'))->out());
+                    'editexercises', 'i/settings');
 
             // deviations
             $this->content->items[] = $this->render_list_item(\mod_astra\urls\urls::deviations($cid, true),
-                    'deviations', (new moodle_url('/pix/i/scheduled.png'))->out());
+                    'deviations', 'i/scheduled');
             
             // export results
             $this->content->items[] = $this->render_list_item(\mod_astra\urls\urls::exportIndex($cid, true),
-                    'exportdata', (new moodle_url('/pix/i/export.png'))->out());
+                    'exportdata', 'i/export');
             
             // mass regrading
             $this->content->items[] = $this->render_list_item(
                     \mod_astra\urls\urls::massRegrading($cid, true),
-                    'massregrading', (new moodle_url('/pix/i/grades.png'))->out());
+                    'massregrading', 'i/grades');
         }
         // without capability, content->items and footer are empty and the block is then not displayed
         return $this->content;
     }
 
-    protected function render_list_item(moodle_url $link_url, $link_text_id, $img_src) {
-        $icon_attrs = array('height' => 16, 'width' => 16);
+    protected function render_list_item(moodle_url $link_url, $link_text_id, $icon_name) {
+        global $OUTPUT;
+        
         $text = get_string($link_text_id, self::STR_PLUGINNAME);
-        $img = html_writer::img($img_src, $text, $icon_attrs);
-        return html_writer::link($link_url, $img .' '. $text);
+        $icon = $OUTPUT->pix_icon($icon_name, $text);
+        // pix_icon produces the HTML for the icon <img> element, taking into account that
+        // themes may override core icons. Modern themes may output Font Awesome icons
+        // in Moodle versions 3.3+
+        return html_writer::link($link_url, $icon .' '. $text);
     }
     
     /**
