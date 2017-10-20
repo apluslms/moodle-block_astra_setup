@@ -63,6 +63,14 @@ class block_astra_setup extends block_list {
                     \mod_astra\urls\urls::massRegrading($cid, true),
                     'massregrading', 'i/grades');
         }
+        
+        if (has_capability('mod/astra:viewallsubmissions', $context)) {
+            // participants list for viewing a student's course overview
+            $this->content->items[] = $this->render_list_item(
+                    \mod_astra\urls\urls::participantList($cid, true),
+                    'participants', 'i/groups');
+        }
+        
         // without capability, content->items and footer are empty and the block is then not displayed
         return $this->content;
     }
