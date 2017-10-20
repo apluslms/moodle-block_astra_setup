@@ -7,5 +7,5 @@ $plugin->requires = 2015111600; // Moodle 3.0
 $plugin->release = 'v1.1';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'mod_astra' => 2016090600,
+    'mod_astra' => 2017102000,
 );
